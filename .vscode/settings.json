@@ -1,0 +1,6 @@
+{
+  "java.project.referencedLibraries": [
+    "lib/timingframework-core-7.4.4-SNAPSHOT.jar",
+    "lib/timingframework-swing-7.4.4-SNAPSHOT.jar"
+  ]
+}
