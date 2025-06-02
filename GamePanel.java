@@ -10,16 +10,17 @@ import javax.swing.*;
 
 public class GamePanel extends JPanel {
 
-    private static boolean movingLeft = false;
-    private static boolean movingRight = false;
-    private static boolean isIdle = true;
-    private static boolean facingRight = true;
-    private static boolean wasFacingRight = true;
-    private static int leftX = 110;
-    private static int y = 600;
-    private static int crawlFrame = 0;
+    private static boolean left = false;
+    private static boolean right = false;
+    private static boolean up = false;
+    private static boolean down = false;
+
+    private static int x = 110;
+    private static int y = 300;
 
     Image background;
+    Image molecule;
+
     
 
     public GamePanel(CardLayout cardLayout) {
@@ -29,31 +30,22 @@ public class GamePanel extends JPanel {
 
         try {
             background = ImageIO.read(new File("assets/lake.png"));
+            molecule = ImageIO.read(new File("assets/molecule.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
         Timer timer = new Timer(16, e -> {
-            if (movingLeft) {
-                if (wasFacingRight) {
-                    leftX -= 20; // shift left once when switching direction
-                }
-                leftX -= 5;
-                facingRight = false;
-                isIdle = false;
-            } else if (movingRight) {
-                if (!wasFacingRight) {
-                    leftX += 20; // shift right once when switching direction
-                }
-                leftX += 5;
-                facingRight = true;
-                isIdle = false;
-                if (leftX > 905) leftX = 905;
-            } else {
-                isIdle = true;
+            if (left) {
+                x -= 5;              
+            } else if (right) {
+                x += 5;
+            } else if (up) {
+                y -= 5;
+            } else if (down) {
+                y += 5;
             }
-            wasFacingRight = facingRight; // update last facing direction
             repaint();            
         });
         timer.start();
@@ -66,14 +58,17 @@ public class GamePanel extends JPanel {
     private void createEventHandlers() {
         this.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_A) movingLeft = true; 
-                if (e.getKeyCode() == KeyEvent.VK_D) movingRight = true; 
-
+                if (e.getKeyCode() == KeyEvent.VK_W) up = true; 
+                if (e.getKeyCode() == KeyEvent.VK_A) left = true; 
+                if (e.getKeyCode() == KeyEvent.VK_S) down = true; 
+                if (e.getKeyCode() == KeyEvent.VK_D) right = true; 
             }
 
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_A) movingLeft = false;
-                if (e.getKeyCode() == KeyEvent.VK_D) movingRight = false;
+                if (e.getKeyCode() == KeyEvent.VK_W) up = false; 
+                if (e.getKeyCode() == KeyEvent.VK_A) left = false; 
+                if (e.getKeyCode() == KeyEvent.VK_S) down = false; 
+                if (e.getKeyCode() == KeyEvent.VK_D) right = false; 
             }
         });
 
@@ -90,8 +85,23 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.WHITE);
 
+        Graphics2D g2 = (Graphics2D) g;
+
         if (background != null) {
             g.drawImage(background, 0, 0, 1080, 720, this);
         }
+
+        if (up) {
+            g.drawImage(molecule, x, y, 100, 100, null);
+        } else if (down) {
+            g.drawImage(molecule, x, y + 5, 100, 100, null);
+        } else if (left) {
+            g.drawImage(molecule, x - 5, y, 100, 100, null);
+        } else if (right) {
+            g.drawImage(molecule, x + 5, y, 100, 100, null);
+        } else {
+            g.drawImage(molecule, x, y, 100, 100, null);
+        }
+
     }
 }
