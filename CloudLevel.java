@@ -23,6 +23,14 @@ public class CloudLevel extends LevelBase {
         coldZones.add(new Rectangle(150, 200, 80, 80));
         coldZones.add(new Rectangle(400, 300, 80, 80));
         coldZones.add(new Rectangle(600, 150, 80, 80));
+        
+        // Set player position away from cold zones
+        player.resetPosition();
+        player.setX(getWidth()/4);  // Spawn at left quarter of screen
+        player.setY(getHeight()/2);
+        
+        condensationProgress = 0;
+        levelComplete = false;
         startGameLoop(60);
     }
 

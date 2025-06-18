@@ -30,7 +30,17 @@ public class IceCrystalLevel extends LevelBase {
             int y = centerY + (int)(radius * Math.sin(angle));
             bondingSites.add(new Rectangle(x, y, 30, 30));
         }
+        
+        // Spawn player at center
+        player.resetPosition();
+        bondsFormed = 0;
+        levelComplete = false;
         startGameLoop(60);
+    }
+
+    @Override
+    protected String getNextLevel() { 
+        return "Cloud"; // Explicit transition
     }
 
     @Override
@@ -178,7 +188,4 @@ public class IceCrystalLevel extends LevelBase {
             false  // False - water is unusual
         };
     }
-
-    @Override
-    protected String getNextLevel() { return "Cloud"; }
 }

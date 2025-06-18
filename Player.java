@@ -59,6 +59,21 @@ public class Player {
         }
     }
 
+    public void resetPosition() {
+        x = window.getWidth()/2;
+        y = window.getHeight()/2;
+    }
+    
+    public void setX(int x) {
+        this.x = x;
+        constrainToBounds();
+    }
+    
+    public void setY(int y) {
+        this.y = y;
+        constrainToBounds();
+    }
+
     public void setMovementEnabled(boolean enabled) {
         this.movementEnabled = enabled;
         if (!enabled) {
@@ -131,5 +146,4 @@ public class Player {
     public void decreaseEntropy() { entropy = Math.max(0, entropy - 10); }
     public void keyPressed(int keyCode) { pressedKeys.add(keyCode); }
     public void keyReleased(int keyCode) { pressedKeys.remove(keyCode); }
-    public void resetPosition() { x = window.getWidth()/2; y = window.getHeight()/2; }
 }

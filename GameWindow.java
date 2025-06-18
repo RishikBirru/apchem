@@ -13,7 +13,7 @@ public class GameWindow extends JFrame {
 
 
     public GameWindow() {
-        setTitle("Molecular Odyssey - AP Chemistry");
+        setTitle("Molecular Odyssey");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -51,8 +51,8 @@ public class GameWindow extends JFrame {
     private void initializeLevels() {
         levels.put("Tutorial", new TutorialLevel(player, this));
         levels.put("Aurora", new AuroraLevel(player, this));
-        levels.put("Waterspout", new WaterspoutLevel(player, this));
         levels.put("IceCrystal", new IceCrystalLevel(player, this));
+        levels.put("Waterspout", new WaterspoutLevel(player, this));
         levels.put("Cloud", new CloudLevel(player, this));
         
         levels.forEach((name, level) -> mainPanel.add(level, name));

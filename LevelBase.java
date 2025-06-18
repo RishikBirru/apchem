@@ -139,19 +139,23 @@ private JPanel createMCQPanel() {
         levelComplete = true;
         gameLoop.stop();
         
-        // Delay the completion sequence
+        // Disable player movement during transition
+        player.setMovementEnabled(false);
+        player.setInputsEnabled(false);
+        
+        // Show completion sequence
         SwingUtilities.invokeLater(() -> {
-            // Show completion message
+            // 1. Show completion message
             JOptionPane.showMessageDialog(this,
                 "Level Complete!\n\n" + getLevelCompletionMessage(),
                 "Phase Change Achieved",
                 JOptionPane.INFORMATION_MESSAGE);
             
-            // Then show chemistry explanation
+            // 2. Show chemistry explanation
             showChemistryExplanation();
             
-            // Finally transition after a delay
-            new Timer(1000, e -> {
+            // 3. Transition with clean state
+            new Timer(500, e -> {
                 window.switchToLevel(getNextLevel());
                 ((Timer)e.getSource()).stop();
             }).start();

@@ -23,7 +23,7 @@ public class AuroraLevel extends LevelBase {
 
     @Override
     protected void initializeLevel() {
-        solarParticles.clear(); // Now safe to call
+        solarParticles.clear();
         for (int i = 0; i < 15; i++) {
             solarParticles.add(new Rectangle(
                 (int)(Math.random() * 700 + 50),
@@ -31,7 +31,17 @@ public class AuroraLevel extends LevelBase {
                 20, 20
             ));
         }
+        
+        // Center player position
+        player.resetPosition();
+        particlesAbsorbed = 0;
+        levelComplete = false;
         startGameLoop(60);
+    }
+
+    @Override
+    protected String getNextLevel() { 
+        return "IceCrystal"; // Explicit transition
     }
 
     @Override
@@ -162,7 +172,4 @@ public class AuroraLevel extends LevelBase {
             true   // True - quantized energy levels
         };
     }
-
-    @Override
-    protected String getNextLevel() { return "Waterspout"; }
 }
