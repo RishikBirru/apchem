@@ -9,15 +9,17 @@ public class IceCrystalLevel extends LevelBase {
 
     public IceCrystalLevel(Player player, GameWindow window) {
         super(player, window);
-        levelObjective = "CONDENSATION:\n" +
-                        "1. Find cold zones (blue areas)\n" +
-                        "2. Lower your entropy\n" +
-                        "3. Reach 100% condensation to form rain";
+        levelObjective = "ICE CRYSTAL FORMATION:\n" +
+                        "1. Form 4 hydrogen bonds (blue zones)\n" +
+                        "2. Each bond decreases entropy\n" +
+                        "3. Observe hexagonal lattice formation";
+        bondingSites = new ArrayList<>(); // Initialize in constructor
+        initializeLevel();
     }
 
     @Override
     protected void initializeLevel() {
-        bondingSites = new ArrayList<>();
+        bondingSites.clear();
         int centerX = getWidth()/2;
         int centerY = getHeight()/2;
         int radius = 150;
@@ -119,31 +121,61 @@ public class IceCrystalLevel extends LevelBase {
     @Override
     protected String getChemistryExplanation() {
         return """
-        ICE CRYSTAL CHEMISTRY (Units 3.12, 2.1)
-        ---------------------------------------
-        Hydrogen bonding in ice:
-        1. Tetrahedral geometry (109.5° angles)
-        2. Hexagonal crystal lattice
-        3. Lower density than liquid water
+        ICE CRYSTAL CHEMISTRY (AP Chem Units 3.12, 2.1)
+        -----------------------------------------------
+        Hydrogen Bonding in Water:
+        - Tetrahedral geometry (109.5° bond angles)
+        - Hexagonal crystal lattice structure
+        - Lower density than liquid water (due to open lattice)
         
-        Key Concepts:
-        - Each H₂O forms 4 hydrogen bonds
-        - Bond energy: ~20 kJ/mol
-        - Open structure causes expansion
+        Key AP Chemistry Concepts:
+        - Each H₂O molecule forms 4 hydrogen bonds
+        - Hydrogen bond strength: ~20 kJ/mol (vs covalent O-H bond: 463 kJ/mol)
+        - ΔH_fusion = +6.01 kJ/mol (endothermic)
+        - ΔS_fusion = +22.0 J/(mol·K)
         
-        Thermodynamics:
-        ΔH_fusion = 6.01 kJ/mol
-        ΔS_fusion = 22.0 J/(mol·K)
+        Phase Diagram Implications:
+        - Negative slope in P-T diagram (unique to water)
+        - Hydrogen bonding explains water's:
+          * High specific heat (4.184 J/g°C)
+          * High heat of vaporization (40.7 kJ/mol)
+          * Surface tension (72.8 mN/m at 20°C)
+        """;
+    }
+
+    @Override
+    protected String getPhenomenonDescription() {
+        return "Forming crystalline structures through hydrogen bonding in water.";
+    }
+
+    @Override
+    protected String getRelevantEquations() {
+        return """
+        Key Equations:
+        - ΔH_fusion = 6.01 kJ/mol
+        - ΔS_fusion = 22.0 J/(mol·K)
+        - Coulomb's Law: F = k(q₁q₂)/r²
+        - Lattice energy calculations
         """;
     }
 
     @Override
     protected String[] getMCQOptions() {
         return new String[] {
-            "Ice floats because it's denser than water (False)",
-            "Hydrogen bonds are stronger than covalent bonds (False)",
-            "Water's high heat capacity comes from hydrogen bonding (True)",
-            "All solids expand when freezing (False - water is unusual)"
+            "Ice floats because it's denser than water",
+            "Hydrogen bonds are stronger than covalent bonds",
+            "Water's high heat capacity comes from hydrogen bonding",
+            "All solids expand when freezing"
+        };
+    }
+
+    @Override
+    protected boolean[] getMCQAnswers() {
+        return new boolean[] {
+            false, // False - less dense
+            false, // False - weaker than covalent
+            true,  // True - due to hydrogen bonding
+            false  // False - water is unusual
         };
     }
 

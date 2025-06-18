@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ public class GameWindow extends JFrame {
     private final JPanel mainPanel = new JPanel(cardLayout);
     private final Player player;
     private final Map<String, LevelBase> levels = new HashMap<>();
+
 
     public GameWindow() {
         setTitle("Molecular Odyssey - AP Chemistry");
@@ -18,18 +21,13 @@ public class GameWindow extends JFrame {
         player = new Player(this);
         initializeLevels();
         add(mainPanel);
-        switchToLevel("Tutorial");
+        setVisible(true);
+        
+        // Start the first level after window is ready
+        SwingUtilities.invokeLater(() -> {
+            switchToLevel("Tutorial");
+        });
     }
-
-private void initializeLevels() {
-    levels.put("Tutorial", new TutorialLevel(player, this));
-    levels.put("Aurora", new AuroraLevel(player, this));
-    levels.put("Waterspout", new WaterspoutLevel(player, this));
-    levels.put("IceCrystal", new IceCrystalLevel(player, this));
-    levels.put("Cloud", new CloudLevel(player, this));
-    
-    levels.forEach((name, level) -> mainPanel.add(level, name));
-}
 
     public void switchToLevel(String levelName) {
         player.resetMovement();
@@ -37,5 +35,26 @@ private void initializeLevels() {
         levels.get(levelName).resetLevel();
         cardLayout.show(mainPanel, levelName);
         levels.get(levelName).requestFocusInWindow();
+        
+        // Only show intro message for Tutorial level
+        if ("Tutorial".equals(levelName)) {
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(this,
+                    "Welcome to Molecular Odyssey!\n\n" +
+                    levels.get(levelName).levelObjective,
+                    "Phase Change Challenge", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            });
+        }
+    }
+
+    private void initializeLevels() {
+        levels.put("Tutorial", new TutorialLevel(player, this));
+        levels.put("Aurora", new AuroraLevel(player, this));
+        levels.put("Waterspout", new WaterspoutLevel(player, this));
+        levels.put("IceCrystal", new IceCrystalLevel(player, this));
+        levels.put("Cloud", new CloudLevel(player, this));
+        
+        levels.forEach((name, level) -> mainPanel.add(level, name));
     }
 }

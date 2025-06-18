@@ -59,6 +59,22 @@ public class WaterspoutLevel extends LevelBase {
     }
 
     @Override
+    protected String getPhenomenonDescription() {
+        return "Demonstrating evaporation thermodynamics and hydrogen bond breaking.";
+    }
+
+    @Override
+    protected String getRelevantEquations() {
+        return """
+        Key Equations:
+        - Clausius-Clapeyron: ln(P₂/P₁) = (ΔH_vap/R)(1/T₁ - 1/T₂)
+        - Heat: q = m·ΔH_vap
+        - Entropy: ΔS = ΔH_vap/T_boil
+        - Vapor pressure: P = exp(-ΔH_vap/RT + C)
+        """;
+    }
+
+    @Override
     protected void drawUI(Graphics2D g2d) {
         g2d.setColor(new Color(255, 255, 255, 200));
         g2d.fillRoundRect(getWidth()-250, 20, 230, 100, 20, 20);
@@ -114,10 +130,20 @@ public class WaterspoutLevel extends LevelBase {
     @Override
     protected String[] getMCQOptions() {
         return new String[] {
-            "Evaporation is endothermic (True)",
-            "IMFs in water are covalent bonds (False - hydrogen bonds)",
-            "Entropy decreases during evaporation (False - increases)",
-            "All phase changes require energy input (False - some release energy)"
+            "Ice floats because it's denser than water",
+            "Hydrogen bonds are stronger than covalent bonds",
+            "Water's high heat capacity comes from hydrogen bonding",
+            "All solids expand when freezing"
+        };
+    }
+
+    @Override
+    protected boolean[] getMCQAnswers() {
+        return new boolean[] {
+            false, // False - less dense
+            false, // False - weaker than covalent
+            true,  // True - due to hydrogen bonding
+            false  // False - water is unusual
         };
     }
 

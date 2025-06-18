@@ -40,6 +40,7 @@ public class AuroraLevel extends LevelBase {
         levelComplete = false;
         initializeLevel(); // Just reinitialize
     }
+    
     @Override
     protected void updateLevel() {
         if (levelComplete) return;
@@ -53,7 +54,10 @@ public class AuroraLevel extends LevelBase {
             }
         }
         
-        if (particlesAbsorbed >= 10) completeLevel();
+        // Only complete when collecting enough particles
+        if (particlesAbsorbed >= 10 && !levelComplete) {
+            completeLevel();
+        }
     }
 
     @Override
@@ -104,6 +108,22 @@ public class AuroraLevel extends LevelBase {
         g2d.drawString("Energy: " + player.getEnergy(), 20, 90);
     }
 
+        @Override
+    protected String getPhenomenonDescription() {
+        return "Simulating electron excitation and photon emission in atmospheric gases.";
+    }
+
+    @Override
+    protected String getRelevantEquations() {
+        return """
+        Key Equations:
+        - E = hν = hc/λ (photon energy)
+        - ΔE = E_final - E_initial (energy levels)
+        - Rydberg: 1/λ = R(1/n₁² - 1/n₂²)
+        - Photoelectric: E = hν - φ
+        """;
+    }
+
     @Override
     protected String getChemistryExplanation() {
         return """
@@ -126,10 +146,20 @@ public class AuroraLevel extends LevelBase {
     @Override
     protected String[] getMCQOptions() {
         return new String[] {
-            "Auroras are caused by proton collisions (False - electrons)",
-            "Green light has higher energy than red (True)",
-            "The photoelectric effect demonstrates light's wave nature (False - particle)",
-            "Energy levels are quantized (True)"
+            "Auroras are caused by proton collisions",
+            "Green light has higher energy than red",
+            "The photoelectric effect demonstrates light's wave nature",
+            "Energy levels are quantized"
+        };
+    }
+
+    @Override
+    protected boolean[] getMCQAnswers() {
+        return new boolean[] {
+            false, // False - caused by electrons
+            true,  // True - shorter wavelength
+            false, // False - demonstrates particle nature
+            true   // True - quantized energy levels
         };
     }
 

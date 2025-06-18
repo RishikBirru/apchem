@@ -14,7 +14,6 @@ public class Player {
     
     public enum MolecularState { SOLID, LIQUID, GAS }
     private MolecularState state = MolecularState.LIQUID;
-    private double kineticEnergy = 0.5;
     private boolean movementEnabled = true;
     private boolean inputsEnabled = true;
 
@@ -25,20 +24,24 @@ public class Player {
         resetPosition();
     }
 
+    public void resetMovement() {
+        pressedKeys.clear();
+        movementEnabled = true;
+        inputsEnabled = true;
+    }
+
     public void update() {
-        if (!movementEnabled) return;
-        if (!inputsEnabled) return;
-
-
-
-        updateState();
+        if (!movementEnabled || !inputsEnabled) return;
+        
         int dx = 0, dy = 0;
+        int speed = getActualSpeed();
         
-        if (pressedKeys.contains(KeyEvent.VK_W)) dy -= getActualSpeed();
-        if (pressedKeys.contains(KeyEvent.VK_S)) dy += getActualSpeed();
-        if (pressedKeys.contains(KeyEvent.VK_A)) dx -= getActualSpeed();
-        if (pressedKeys.contains(KeyEvent.VK_D)) dx += getActualSpeed();
+        if (pressedKeys.contains(KeyEvent.VK_W)) dy -= speed;
+        if (pressedKeys.contains(KeyEvent.VK_S)) dy += speed;
+        if (pressedKeys.contains(KeyEvent.VK_A)) dx -= speed;
+        if (pressedKeys.contains(KeyEvent.VK_D)) dx += speed;
         
+        // Normalize diagonal movement
         if (dx != 0 && dy != 0) {
             dx = (int)(dx * 0.7071);
             dy = (int)(dy * 0.7071);
@@ -67,12 +70,6 @@ public class Player {
         if (entropy > 75) state = MolecularState.GAS;
         else if (entropy < 25) state = MolecularState.SOLID;
         else state = MolecularState.LIQUID;
-        
-        kineticEnergy = switch(state) {
-            case SOLID -> 0.1 + (entropy/100.0);
-            case LIQUID -> 0.5 + (entropy/50.0);
-            case GAS -> 1.0 + (entropy/25.0);
-        };
     }
 
     private int getActualSpeed() {
@@ -85,21 +82,40 @@ public class Player {
     }
 
     public void draw(Graphics2D g2d) {
-        Color fillColor = switch(state) {
-            case SOLID -> new Color(100, 100, 255, 220);
-            case LIQUID -> new Color(100, 150, 255, 180);
-            case GAS -> new Color(200, 200, 255, 120);
-        };
-        
-        g2d.setColor(fillColor);
-        g2d.fillOval(x, y, diameter, diameter);
-        
-        if (state == MolecularState.GAS) {
-            g2d.setColor(Color.RED);
-            g2d.drawLine(x+diameter/2, y+diameter/2, 
-                        x+diameter/2+(int)(10*kineticEnergy), 
-                        y+diameter/2);
+        // State-specific colors and effects
+        switch(state) {
+            case SOLID:
+                g2d.setColor(new Color(100, 100, 255, 220));
+                g2d.fillOval(x, y, diameter, diameter);
+                g2d.setColor(Color.WHITE);
+                g2d.drawString("❄", x + diameter/2 - 5, y + diameter/2 + 5); // Snowflake icon
+                break;
+            case LIQUID:
+                g2d.setColor(new Color(100, 150, 255, 180));
+                g2d.fillOval(x, y, diameter, diameter);
+                // Ripple effect
+                g2d.setColor(new Color(255, 255, 255, 100));
+                g2d.drawOval(x-5, y-5, diameter+10, diameter+10);
+                break;
+            case GAS:
+                g2d.setColor(new Color(200, 200, 255, 120));
+                g2d.fillOval(x, y, diameter, diameter);
+                // Vapor effect
+                for (int i = 0; i < 3; i++) {
+                    g2d.fillOval(x + 5*i, y - 5*i, diameter - 5*i, diameter - 5*i);
+                }
+                break;
         }
+        
+        // State indicator
+        g2d.setColor(Color.BLACK);
+        g2d.setFont(new Font("Arial", Font.BOLD, 12));
+        g2d.drawString(state.toString(), x, y - 5);
+    }
+
+    public void setEntropy(int value) {
+        this.entropy = Math.max(0, Math.min(100, value));
+        updateState(); // Update molecular state based on new entropy
     }
 
     // Getters and setters
@@ -115,6 +131,5 @@ public class Player {
     public void decreaseEntropy() { entropy = Math.max(0, entropy - 10); }
     public void keyPressed(int keyCode) { pressedKeys.add(keyCode); }
     public void keyReleased(int keyCode) { pressedKeys.remove(keyCode); }
-    public void resetMovement() { pressedKeys.clear(); }
     public void resetPosition() { x = window.getWidth()/2; y = window.getHeight()/2; }
 }

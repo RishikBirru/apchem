@@ -29,19 +29,99 @@ public abstract class LevelBase extends JPanel {
         });
     }
 
-    protected void showChemistryExplanation() {
-        player.setInputsEnabled(false);
+protected void showChemistryExplanation() {
+    player.setInputsEnabled(false);
+    
+    // Create main panel with tabs
+    JTabbedPane tabbedPane = new JTabbedPane();
+    
+    // Concepts tab
+    JTextArea conceptsArea = new JTextArea(getChemistryExplanation());
+    styleTextArea(conceptsArea);
+    tabbedPane.addTab("Chemistry Concepts", new JScrollPane(conceptsArea));
+    
+    // Equations tab
+    JTextArea equationsArea = new JTextArea(getRelevantEquations());
+    styleTextArea(equationsArea);
+    tabbedPane.addTab("Key Equations", new JScrollPane(equationsArea));
+    
+    // MCQ tab
+    JPanel mcqPanel = createMCQPanel();
+    tabbedPane.addTab("Quick Quiz", mcqPanel);
+    
+    JOptionPane.showMessageDialog(this, tabbedPane, 
+                               "AP Chemistry Review", 
+                               JOptionPane.PLAIN_MESSAGE);
+    
+    player.setInputsEnabled(true);
+}
+
+private JPanel createMCQPanel() {
+    JPanel panel = new JPanel(new BorderLayout());
+    panel.setPreferredSize(new Dimension(500, 300));
+    
+    JLabel questionLabel = new JLabel("Select the correct statement:");
+    panel.add(questionLabel, BorderLayout.NORTH);
+    
+    JPanel optionsPanel = new JPanel(new GridLayout(0, 1));
+    ButtonGroup group = new ButtonGroup();
+    String[] options = getMCQOptions();
+    boolean[] answers = getMCQAnswers();
+    
+    for (int i = 0; i < options.length; i++) {
+        JRadioButton option = new JRadioButton(options[i]);
+        option.setActionCommand(String.valueOf(i));
+        group.add(option);
+        optionsPanel.add(option);
+    }
+    
+    JButton submitButton = new JButton("Submit");
+    JLabel resultLabel = new JLabel(" ");
+    resultLabel.setForeground(Color.RED);
+    
+    submitButton.addActionListener(e -> {
+        String selected = group.getSelection() != null ? 
+                         group.getSelection().getActionCommand() : "-1";
+        int selectedIndex = Integer.parseInt(selected);
         
-        // Create popup content
-        JTextArea explanation = new JTextArea(getChemistryExplanation());
-        explanation.setEditable(false);
-        explanation.setLineWrap(true);
-        explanation.setWrapStyleWord(true);
-        
-        JOptionPane.showMessageDialog(this, explanation, "Chemistry Explanation", 
-                                    JOptionPane.INFORMATION_MESSAGE);
-        
-        player.setInputsEnabled(true);
+        if (selectedIndex == -1) {
+            resultLabel.setText("Please select an answer!");
+        } else {
+            boolean isCorrect = answers[selectedIndex];
+            resultLabel.setText(isCorrect ? 
+                "✓ Correct! Well done!" : 
+                "✗ Incorrect. Review the concepts.");
+            submitButton.setEnabled(false);
+        }
+    });
+    
+    panel.add(optionsPanel, BorderLayout.CENTER);
+    
+    JPanel bottomPanel = new JPanel(new BorderLayout());
+    bottomPanel.add(submitButton, BorderLayout.WEST);
+    bottomPanel.add(resultLabel, BorderLayout.CENTER);
+    panel.add(bottomPanel, BorderLayout.SOUTH);
+    
+    return panel;
+}
+
+// Add this new method to LevelBase
+    protected abstract boolean[] getMCQAnswers();
+
+    private void styleTextArea(JTextArea area) {
+        area.setEditable(false);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        area.setMargin(new Insets(10, 10, 10, 10));
+    }
+
+    private void styleExplanationText(JTextArea textArea) {
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setFont(new Font("Courier New", Font.PLAIN, 14));
+        textArea.setMargin(new Insets(10, 10, 10, 10));
     }
 
     protected void startGameLoop(int fps) {
@@ -54,15 +134,39 @@ public abstract class LevelBase extends JPanel {
     }
 
     protected void completeLevel() {
+        if (levelComplete) return;
+        
         levelComplete = true;
         gameLoop.stop();
-        showChemistryExplanation();
         
-        Timer transitionTimer = new Timer(2000, e -> {
-            window.switchToLevel(getNextLevel());
+        // Delay the completion sequence
+        SwingUtilities.invokeLater(() -> {
+            // Show completion message
+            JOptionPane.showMessageDialog(this,
+                "Level Complete!\n\n" + getLevelCompletionMessage(),
+                "Phase Change Achieved",
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            // Then show chemistry explanation
+            showChemistryExplanation();
+            
+            // Finally transition after a delay
+            new Timer(1000, e -> {
+                window.switchToLevel(getNextLevel());
+                ((Timer)e.getSource()).stop();
+            }).start();
         });
-        transitionTimer.setRepeats(false);
-        transitionTimer.start();
+    }
+
+    protected String getLevelCompletionMessage() {
+        return switch(this.getClass().getSimpleName()) {
+            case "TutorialLevel" -> "You've mastered molecular movement!";
+            case "AuroraLevel" -> "Aurora phenomenon achieved!";
+            case "WaterspoutLevel" -> "Evaporation process completed!";
+            case "IceCrystalLevel" -> "Crystal formation successful!";
+            case "CloudLevel" -> "Condensation achieved!";
+            default -> "Phase transition complete!";
+        };
     }
 
     // Abstract methods
@@ -74,6 +178,8 @@ public abstract class LevelBase extends JPanel {
     protected abstract String getChemistryExplanation();
     protected abstract String[] getMCQOptions();
     protected abstract String getNextLevel();
+    protected abstract String getPhenomenonDescription();
+    protected abstract String getRelevantEquations();
 
 
     @Override

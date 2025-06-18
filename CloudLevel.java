@@ -9,12 +9,17 @@ public class CloudLevel extends LevelBase {
 
     public CloudLevel(Player player, GameWindow window) {
         super(player, window);
-        levelObjective = "Condense water vapor (100% required) to form rain";
+        levelObjective = "CLOUD FORMATION:\n" +
+                        "1. Find cold zones (blue areas)\n" +
+                        "2. Lower your entropy\n" +
+                        "3. Reach 100% condensation to form rain";
+        coldZones = new ArrayList<>(); // Initialize in constructor
+        initializeLevel();
     }
 
     @Override
     protected void initializeLevel() {
-        coldZones = new ArrayList<>();
+        coldZones.clear();
         coldZones.add(new Rectangle(150, 200, 80, 80));
         coldZones.add(new Rectangle(400, 300, 80, 80));
         coldZones.add(new Rectangle(600, 150, 80, 80));
@@ -101,33 +106,63 @@ public class CloudLevel extends LevelBase {
     }
 
     @Override
+    protected String getPhenomenonDescription() {
+        return "Simulating nucleation and droplet formation in atmospheric condensation.";
+    }
+
+    @Override
+    protected String getRelevantEquations() {
+        return """
+        Key Equations:
+        - Raoult's Law: P_solution = X_solvent·P°_solvent
+        - Relative Humidity: RH = (P_water/P_sat) × 100%
+        - Kelvin: ln(P/P°) = 2γV_m/rRT
+        - Gibbs: ΔG = V_mΔP
+        """;
+    }
+
+    @Override
     protected String getChemistryExplanation() {
         return """
-        CLOUD CHEMISTRY (Units 8.1, 6.3)
-        -------------------------------
-        Condensation requires:
-        1. Temperature below dew point
-        2. Nucleation sites (dust, ions)
-        3. Energy release (ΔH < 0)
+        CLOUD FORMATION (AP Chem Units 8.1, 6.3)
+        ----------------------------------------
+        Condensation Fundamentals:
+        - Requires temperature below dew point
+        - Nucleation sites (dust, ions) help formation
+        - Exothermic process (ΔH < 0)
         
-        Key Concepts:
-        - Vapor pressure = atmospheric pressure at boiling point
+        Key AP Chemistry Concepts:
+        - Vapor pressure equilibrium
         - Relative humidity = (P_water/P_sat) × 100%
         - Raoult's Law: P_solution = X_solvent × P°_solvent
         
         Thermodynamics:
         ΔG = ΔH - TΔS
-        Condensation spontaneous when ΔG < 0
+        - Spontaneous when ΔG < 0
+        - For condensation:
+          * ΔH is negative (exothermic)
+          * ΔS is negative (more ordered)
+          * Favored at low temperatures
         """;
     }
 
     @Override
     protected String[] getMCQOptions() {
         return new String[] {
-            "Condensation releases heat (True)",
-            "Dew point depends only on temperature (False - humidity too)",
-            "Clouds form when air is supersaturated (True)",
-            "All phase changes decrease entropy (False - some increase)"
+            "Condensation releases heat",
+            "Dew point depends only on temperature",
+            "Clouds form when air is supersaturated",
+            "All phase changes decrease entropy"
+        };
+    }
+
+    @Override
+    protected boolean[] getMCQAnswers() {
+        return new boolean[] {
+            true,  // True - exothermic process
+            false, // False - depends on humidity too
+            true,  // True - requires supersaturation
+            false  // False - some increase entropy
         };
     }
 

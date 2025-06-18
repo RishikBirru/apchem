@@ -5,6 +5,8 @@ import java.util.List;
 public class TutorialLevel extends LevelBase {
     private List<Rectangle> energyOrbs;
     private int orbsCollected = 0;
+    private boolean initialized = false;
+
 
     public TutorialLevel(Player player, GameWindow window) {
         super(player, window);
@@ -12,30 +14,34 @@ public class TutorialLevel extends LevelBase {
                 "1. Use WASD keys to move\n" +
                 "2. Collect all 3 energy orbs\n" +
                 "3. Watch your entropy increase!";
-        energyOrbs = new ArrayList<>(); // Initialize here
-        initializeLevel(); // Then populate
+        energyOrbs = new ArrayList<>();
     }
 
     @Override
     protected void initializeLevel() {
-        energyOrbs.clear(); // Now safe to call
+        if (initialized) return;
+        
+        energyOrbs.clear();
         energyOrbs.add(new Rectangle(150, 200, 25, 25));
         energyOrbs.add(new Rectangle(400, 300, 25, 25));
         energyOrbs.add(new Rectangle(600, 150, 25, 25));
-        startGameLoop(60);
-    }
-
-    @Override
-    public void resetLevel() {
+        
         orbsCollected = 0;
         levelComplete = false;
-        initializeLevel(); // Just reinitialize
+        player.setEntropy(50);
+        player.resetMovement();
+        player.resetPosition();
+        
+        startGameLoop(60);
+        requestFocusInWindow();
+        initialized = true;
     }
 
     @Override
     protected void updateLevel() {
         if (levelComplete) return;
         
+        // Check orb collection
         for (int i = 0; i < energyOrbs.size(); i++) {
             if (player.getBounds().intersects(energyOrbs.get(i))) {
                 energyOrbs.remove(i);
@@ -45,7 +51,53 @@ public class TutorialLevel extends LevelBase {
             }
         }
         
-        if (orbsCollected >= 3) completeLevel();
+        // Only complete when collecting all orbs
+        if (orbsCollected >= 3) {
+            completeLevel();
+        }
+    }
+
+
+    @Override
+    protected String getPhenomenonDescription() {
+        return "Observing how molecular movement affects entropy changes in different states of matter.";
+    }
+
+    @Override
+    protected String getRelevantEquations() {
+        return """
+        Key Equations:
+        - ΔS = q_rev/T (reversible process)
+        - ΔG = ΔH - TΔS (Gibbs free energy)
+        - ΔS_universe = ΔS_system + ΔS_surroundings
+        """;
+    }
+
+    @Override
+    protected String[] getMCQOptions() {
+        return new String[] {
+            "Entropy decreases when water evaporates",
+            "Gases have higher entropy than liquids",
+            "All spontaneous processes increase entropy",
+            "Entropy is measured in J/mol"
+        };
+    }
+
+    @Override
+    protected boolean[] getMCQAnswers() {
+        return new boolean[] {
+            false,  // First option is incorrect
+            true,   // Second option is correct
+            true,   // Third option is correct
+            false   // Fourth option is incorrect
+        };
+    }
+
+
+
+    @Override
+    public void resetLevel() {
+        initializeLevel();
     }
 
     @Override
@@ -58,6 +110,7 @@ public class TutorialLevel extends LevelBase {
 
     @Override
     protected void drawUI(Graphics2D g2d) {
+        // Draw instruction panel
         g2d.setColor(new Color(255, 255, 255, 200));
         g2d.fillRoundRect(getWidth()-250, 20, 230, 100, 20, 20);
         g2d.setColor(Color.BLACK);
@@ -68,11 +121,13 @@ public class TutorialLevel extends LevelBase {
             g2d.drawString(instructions[i], getWidth()-240, 40 + i*20);
         }
 
+        // Draw orbs
         g2d.setColor(Color.YELLOW);
         for (Rectangle orb : energyOrbs) {
             g2d.fillOval(orb.x, orb.y, orb.width, orb.height);
         }
         
+        // Draw UI elements
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial", Font.BOLD, 16));
         g2d.drawString("Orbs: " + orbsCollected + "/3", 20, 60);
@@ -89,20 +144,15 @@ public class TutorialLevel extends LevelBase {
         - Phase changes affect entropy dramatically
         - ΔS > 0 for evaporation (liquid → gas)
         
-        Key Equations:
-        ΔS = q_rev/T (reversible process)
+        Key AP Chemistry Concepts:
+        - Spontaneous processes favor increased entropy
+        - Gases > Liquids > Solids for entropy
+        - ΔS° = ΣS°(products) - ΣS°(reactants)
+        
+        Thermodynamics:
+        ΔG = ΔH - TΔS
         ΔS_universe = ΔS_system + ΔS_surroundings > 0
         """;
-    }
-
-    @Override
-    protected String[] getMCQOptions() {
-        return new String[] {
-            "Entropy decreases when water evaporates (False)",
-            "Gases have higher entropy than liquids (True)",
-            "All spontaneous processes increase entropy (True)",
-            "Entropy is measured in J/mol (False - it's J/K·mol)"
-        };
     }
 
     @Override
