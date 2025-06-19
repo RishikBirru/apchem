@@ -17,6 +17,7 @@ public class TutorialLevel extends LevelBase {
         energyOrbs = new ArrayList<>();
     }
 
+    
     @Override
     protected void initializeLevel() {
         if (initialized) return;
