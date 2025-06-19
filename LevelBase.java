@@ -127,14 +127,16 @@ private JPanel createMCQPanel() {
     protected void startGameLoop(int fps) {
         gameLoop = new Timer(1000/fps, e -> {
             player.update();
-            updateLevel();
+            if (window.isCurrentLevel(this.getClass().getSimpleName())) {
+                updateLevel();
+            }
             repaint();
         });
         gameLoop.start();
     }
 
     protected void completeLevel() {
-        if (levelComplete) return;
+        if (levelComplete) return; // Prevent multiple triggers
         
         levelComplete = true;
         gameLoop.stop();

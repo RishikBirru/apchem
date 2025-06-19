@@ -44,7 +44,7 @@ public class CloudLevel extends LevelBase {
 
     @Override
     protected void updateLevel() {
-        if (levelComplete) return;
+        if (levelComplete || !window.isCurrentLevel("Cloud")) return;
         
         for (Rectangle coldZone : coldZones) {
             if (player.getBounds().intersects(coldZone)) {
@@ -53,8 +53,6 @@ public class CloudLevel extends LevelBase {
                 break;
             }
         }
-        
-        if (player.getY() > getHeight()/2) condensationProgress++;
         
         if (condensationProgress >= CONDENSATION_TARGET) completeLevel();
     }
@@ -175,5 +173,5 @@ public class CloudLevel extends LevelBase {
     }
 
     @Override
-    protected String getNextLevel() { return "Tutorial"; } // Loop back or add "Credits"
+    protected String getNextLevel() { return "EndScreen"; } // Loop back or add "Credits"
 }

@@ -41,7 +41,7 @@ public class AuroraLevel extends LevelBase {
 
     @Override
     protected String getNextLevel() { 
-        return "IceCrystal"; // Explicit transition
+        return "Waterspout"; // Explicit transition
     }
 
     @Override
@@ -53,8 +53,8 @@ public class AuroraLevel extends LevelBase {
     
     @Override
     protected void updateLevel() {
-        if (levelComplete) return;
-        
+        if (levelComplete || !window.isCurrentLevel("AuroraLevel")) return;
+
         for (int i = 0; i < solarParticles.size(); i++) {
             if (player.getBounds().intersects(solarParticles.get(i))) {
                 solarParticles.remove(i);

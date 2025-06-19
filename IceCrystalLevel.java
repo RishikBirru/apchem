@@ -53,8 +53,8 @@ public class IceCrystalLevel extends LevelBase {
 
     @Override
     protected void updateLevel() {
-        if (levelComplete) return;
-        
+        if (levelComplete || !window.isCurrentLevel("IceCrystalLevel")) return;
+
         for (int i = 0; i < bondingSites.size(); i++) {
             if (player.getBounds().intersects(bondingSites.get(i))) {
                 bondingSites.remove(i);

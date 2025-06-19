@@ -32,6 +32,7 @@ public class Player {
 
     public void update() {
         if (!movementEnabled || !inputsEnabled) return;
+
         
         int dx = 0, dy = 0;
         int speed = getActualSpeed();

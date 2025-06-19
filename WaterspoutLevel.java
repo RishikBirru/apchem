@@ -29,17 +29,20 @@ public class WaterspoutLevel extends LevelBase {
 
     @Override
     protected void updateLevel() {
-        if (levelComplete) return;
-        
+    if (levelComplete || !window.isCurrentLevel("WaterspoutLevel")) return;
+
+        boolean inHeatSource = false;
         for (Rectangle heat : heatSources) {
             if (player.getBounds().intersects(heat)) {
                 player.increaseEntropy();
-                evaporationProgress += 5;
+                evaporationProgress += 2; // Reduced rate
+                inHeatSource = true;
                 break;
             }
         }
         
-        if (player.getY() < getHeight()/2) evaporationProgress++;
+        // Remove the automatic progress when above middle
+        // if (player.getY() < getHeight()/2) evaporationProgress++;
         
         if (evaporationProgress >= 100) completeLevel();
     }

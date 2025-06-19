@@ -10,6 +10,10 @@ public class GameWindow extends JFrame {
     private final JPanel mainPanel = new JPanel(cardLayout);
     private final Player player;
     private final Map<String, LevelBase> levels = new HashMap<>();
+    private String currentLevelName; 
+    private final EndScreen endScreen;
+
+
 
 
     public GameWindow() {
@@ -22,6 +26,9 @@ public class GameWindow extends JFrame {
         initializeLevels();
         add(mainPanel);
         setVisible(true);
+
+        endScreen = new EndScreen(this);
+        mainPanel.add(endScreen, "EndScreen");
         
         // Start the first level after window is ready
         SwingUtilities.invokeLater(() -> {
@@ -30,8 +37,19 @@ public class GameWindow extends JFrame {
     }
 
 
+    public boolean isCurrentLevel(String levelName) {
+        return currentLevelName != null && 
+            currentLevelName.equals(levelName.replace("Level", ""));
+    }
 
     public void switchToLevel(String levelName) {
+        if ("EndScreen".equals(levelName)) {
+            cardLayout.show(mainPanel, "EndScreen");
+            return;
+        }
+
+        System.out.println("Switching to level: " + levelName); // Debug output
+        currentLevelName = levelName; // Track current level
         player.resetMovement();
         player.resetPosition();
         levels.get(levelName).resetLevel();
@@ -53,8 +71,8 @@ public class GameWindow extends JFrame {
     private void initializeLevels() {
         levels.put("Tutorial", new TutorialLevel(player, this));
         levels.put("Aurora", new AuroraLevel(player, this));
-        levels.put("IceCrystal", new IceCrystalLevel(player, this));
         levels.put("Waterspout", new WaterspoutLevel(player, this));
+        levels.put("IceCrystal", new IceCrystalLevel(player, this));
         levels.put("Cloud", new CloudLevel(player, this));
         
         levels.forEach((name, level) -> mainPanel.add(level, name));

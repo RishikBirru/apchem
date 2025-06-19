@@ -40,8 +40,8 @@ public class TutorialLevel extends LevelBase {
 
     @Override
     protected void updateLevel() {
-        if (levelComplete) return;
-        
+        if (levelComplete || !window.isCurrentLevel("TutorialLevel")) return;
+
         // Check orb collection
         for (int i = 0; i < energyOrbs.size(); i++) {
             if (player.getBounds().intersects(energyOrbs.get(i))) {
