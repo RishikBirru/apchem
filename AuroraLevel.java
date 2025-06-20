@@ -13,7 +13,7 @@ public class AuroraLevel extends LevelBase {
 
     public AuroraLevel(Player player, GameWindow window) {
         super(player, window);
-        levelObjective = "AURORA MECHANICS:\n" +
+        levelObjective = "AURORA BOREALIS:\n" +
                         "1. Absorb 10 solar particles (yellow circles)\n" +
                         "2. Particles excite your electrons\n" +
                         "3. Energy emitted creates aurora colors";
@@ -124,32 +124,27 @@ public class AuroraLevel extends LevelBase {
     }
 
     @Override
-    protected String getRelevantEquations() {
-        return """
-        Key Equations:
-        - E = hν = hc/λ (photon energy)
-        - ΔE = E_final - E_initial (energy levels)
-        - Rydberg: 1/λ = R(1/n₁² - 1/n₂²)
-        - Photoelectric: E = hν - φ
-        """;
-    }
-
-    @Override
     protected String getChemistryExplanation() {
         return """
-        AURORA CHEMISTRY (Units 6.3, 1.4)
+        Photoelectric Effect and Heat Transfer (Units 3.12, 6.3)
         --------------------------------
-        Solar particles excite electrons:
-        1. e⁻ absorb energy and jump to higher orbitals
-        2. When they fall back, emit specific wavelengths
-        3. Colors correspond to energy differences:
-           - Green: 557.7 nm (Oxygen)
-           - Violet: 427.8 nm (N₂⁺)
-           - Red: 630.0 nm (Oxygen)
-        
-        Equations:
-        E = hν = hc/λ
-        ΔE = E_final - E_initial
+        Observations:
+        • Yellow particles = solar energy packets
+        • Energy absorption → immediate light emission
+        • Different colors = specific energy amounts
+
+        AP Chemistry:
+        • Light behaves as particle-like photons
+        • Each photon carries quantized energy (E=hv)
+        • Electrons absorb/release exact energy amounts
+
+        • Energy moves from solar particles → molecule
+        • Excess energy releases as colored light
+        • Demonstrates energy conservation
+
+        Connection:
+        • Actual auroras work identically
+        • Neon signs use same electron jumps
         """;
     }
 

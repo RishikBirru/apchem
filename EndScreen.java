@@ -49,89 +49,91 @@ public class EndScreen extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void loadChemistryContent() {
+        private void loadChemistryContent() {
         chemistryContent.put("Tutorial", 
-            "ENTROPY AND MOLECULAR MOTION (Unit 9.1)\n" +
+            "ENTROPY (Unit 9.1)\n" +
             "---------------------------------------\n" +
-            "Entropy (S) measures molecular disorder:\n" +
-            "- More movement = higher entropy\n" +
-            "- Phase changes affect entropy dramatically\n" +
-            "- ΔS > 0 for evaporation (liquid → gas)\n\n" +
-            "Key AP Chemistry Concepts:\n" +
-            "- Spontaneous processes favor increased entropy\n" +
-            "- Gases > Liquids > Solids for entropy\n" +
-            "- ΔS° = ΣS°(products) - ΣS°(reactants)\n\n" +
-            "Thermodynamics:\n" +
-            "ΔG = ΔH - TΔS\n" +
-            "ΔS_universe = ΔS_system + ΔS_surroundings > 0");
-            
-        chemistryContent.put("Aurora", 
-            "AURORA CHEMISTRY (Units 6.3, 1.4)\n" +
+            "Observations:\n" +
+            "• Gaining energy increases entropy\n" +
+            "• Higher entropy/energy leads to phase changes (liquid → gas)\n" +
+            "• Gas molecules move more freely than liquids\n\n" +
+            "AP Chemistry:\n" +
+            "• Entropy measures molecular disorder and adding energy increases entropy\n" +
+            "• Spontaneous processes favor increased entropy\n" +
+            "• Phase changes occur at specific entropy thresholds\n\n" +
+            "Connections:\n" +
+            "• Heating ice → water → steam increases entropy\n" +
+            "• Evaporation occurs spontaneously at room temperature");
+
+        chemistryContent.put("Aurora",
+            "Photoelectric Effect and Heat Transfer (Units 6.3, 1.4)\n" +
             "--------------------------------\n" +
-            "Solar particles excite electrons:\n" +
-            "1. e⁻ absorb energy and jump to higher orbitals\n" +
-            "2. When they fall back, emit specific wavelengths\n" +
-            "3. Colors correspond to energy differences:\n" +
-            "   - Green: 557.7 nm (Oxygen)\n" +
-            "   - Violet: 427.8 nm (N₂⁺)\n" +
-            "   - Red: 630.0 nm (Oxygen)\n\n" +
-            "Equations:\n" +
-            "E = hν = hc/λ\n" +
-            "ΔE = E_final - E_initial");
-            
-        chemistryContent.put("Waterspout", 
-            "WATERSHED CHEMISTRY (Units 3.12, 8.1)\n" +
-            "------------------------------------\n" +
-            "Evaporation involves:\n" +
-            "1. Overcoming hydrogen bonds (IMFs)\n" +
-            "2. Energy input (ΔH > 0)\n" +
-            "3. Entropy increase (ΔS > 0)\n\n" +
-            "Key Concepts:\n" +
-            "- Hydrogen bonding: 20 kJ/mol\n" +
-            "- Vapor pressure equilibrium\n" +
-            "- Clausius-Clapeyron equation:\n" +
-            "  ln(P) = -ΔH_vap/R(1/T) + C\n\n" +
-            "Thermodynamics:\n" +
-            "ΔG = ΔH - TΔS\n" +
-            "Spontaneous when ΔG < 0");
-            
-        chemistryContent.put("IceCrystal", 
-            "ICE CRYSTAL CHEMISTRY (AP Chem Units 3.12, 2.1)\n" +
-            "-----------------------------------------------\n" +
-            "Hydrogen Bonding in Water:\n" +
-            "- Tetrahedral geometry (109.5° bond angles)\n" +
-            "- Hexagonal crystal lattice structure\n" +
-            "- Lower density than liquid water (due to open lattice)\n\n" +
-            "Key AP Chemistry Concepts:\n" +
-            "- Each H₂O molecule forms 4 hydrogen bonds\n" +
-            "- Hydrogen bond strength: ~20 kJ/mol (vs covalent O-H bond: 463 kJ/mol)\n" +
-            "- ΔH_fusion = +6.01 kJ/mol (endothermic)\n" +
-            "- ΔS_fusion = +22.0 J/(mol·K)\n\n" +
-            "Phase Diagram Implications:\n" +
-            "- Negative slope in P-T diagram (unique to water)\n" +
-            "- Hydrogen bonding explains water's:\n" +
-            "  * High specific heat (4.184 J/g°C)\n" +
-            "  * High heat of vaporization (40.7 kJ/mol)\n" +
-            "  * Surface tension (72.8 mN/m at 20°C)");
-            
-        chemistryContent.put("Cloud", 
-            "CLOUD FORMATION (AP Chem Units 8.1, 6.3)\n" +
+            "Observations:\n" +
+            "• Yellow particles = solar energy packets\n" +
+            "• Energy absorption → immediate light emission\n" +
+            "• Different colors = specific energy amounts\n\n" +
+            "AP Chemistry:\n" +
+            "• Light behaves as particle-like photons\n" +
+            "• Each photon carries quantized energy (E=hv)\n" +
+            "• Electrons absorb/release exact energy amounts\n\n" +
+            "• Energy moves from solar particles → molecule\n" +
+            "• Excess energy releases as colored light\n" +
+            "• Demonstrates energy conservation\n\n" +
+            "Connection:\n" +
+            "• Actual auroras work identically\n" +
+            "• Neon signs use same electron jumps");
+
+        chemistryContent.put("Waterspout",
+            "IMFs, Heat Transfer, and Entropy (Units 3.12, 6.03, 9.01)\n" +
+            "-------------------------------------\n" +
+            "Key Observations:\n" +
+            "• Red zones = heat sources adding energy\n" +
+            "• Rising mist = entropy increasing\n\n" +
+            "AP Chemistry Principles:\n" +
+            "• Intermolecular Forces (Unit 3.12)\n" +
+            "• Heat breaks hydrogen bonds between water molecules\n" +
+            "• Explains waterspout's upward motion (IMFs → vapor pressure)\n\n" +
+            "Heat Transfer (Unit 6.03):\n" +
+            "• Energy flows into the system (endothermic)\n" +
+            "• Phase change requires specific energy input (ΔH_vap)\n\n" +
+            "Entropy (Unit 9.01):\n" +
+            "• Liquid → gas = ΔS > 0 (disorder increases)\n" +
+            "• Spontaneous because TΔS > ΔH at high temps\n\n" +
+            "Connection:\n" +
+            "• Why oceans evaporate under sunlight\n" +
+            "• How steam engines convert heat → motion\n" +
+            "• Why sweat cools you (heat absorbed → evaporation)");
+
+        chemistryContent.put("IceCrystal",
+            "IMFs and Entropy (Units 3.11 and 9.01)\n" +
+            "----------------------------------------------\n" +
+            "Key Observations:\n" +
+            "• Blue zones = hydrogen bond sites\n" +
+            "• Hexagonal shapes = real ice lattice structure\n" +
+            "• Entropy decreased as crystals formed\n\n" +
+            "AP Chemistry:\n" +
+            "• Each H₂O forms 4 bonds (tetrahedral shape)\n" +
+            "• Stronger than dipole but weaker than covalent bonds\n\n" +
+            "• Liquid → solid = ΔS < 0 (more ordered)\n" +
+            "• Still occurs because ΔH is negative (exothermic)\n\n" +
+            "Connection:\n" +
+            "• Why ice floats\n" +
+            "• Snowflake symmetry from H-bond angles");
+
+        chemistryContent.put("Cloud",
+            "IMFs and Exo/Endothermic Reactions (3.12 and 6.01)\n" +
             "----------------------------------------\n" +
-            "Condensation Fundamentals:\n" +
-            "- Requires temperature below dew point\n" +
-            "- Nucleation sites (dust, ions) help formation\n" +
-            "- Exothermic process (ΔH < 0)\n\n" +
-            "Key AP Chemistry Concepts:\n" +
-            "- Vapor pressure equilibrium\n" +
-            "- Relative humidity = (P_water/P_sat) × 100%\n" +
-            "- Raoult's Law: P_solution = X_solvent × P°_solvent\n\n" +
-            "Thermodynamics:\n" +
-            "ΔG = ΔH - TΔS\n" +
-            "- Spontaneous when ΔG < 0\n" +
-            "- For condensation:\n" +
-            "  * ΔH is negative (exothermic)\n" +
-            "  * ΔS is negative (more ordered)\n" +
-            "  * Favored at low temperatures");
+            "Observations:\n" +
+            "• Blue zones are cold air regions\n" +
+            "• Rain droplets formed happens when entropy is decreasing\n\n" +
+            "AP Chemistry:\n" +
+            "• Water molecules reform hydrogen bonds\n" +
+            "• Nucleation requires dust/ions (like in-game cold zones)\n\n" +
+            "• Gas → liquid = ΔS < 0 (more ordered)\n" +
+            "• Exothermic process (releases heat)\n\n" +
+            "Connection:\n" +
+            "• How real clouds form at dew point\n" +
+            "• Why mornings are foggy (Overnight cooling)");
     }
 
     private void showReviewOptions() {

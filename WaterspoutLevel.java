@@ -7,7 +7,7 @@ public class WaterspoutLevel extends LevelBase {
     private int evaporationProgress = 0;
     public WaterspoutLevel(Player player, GameWindow window) {
         super(player, window);
-        levelObjective = "EVAPORATION CHALLENGE:\n1. Collect heat from red zones (WASD to move)\n2. Rise upward to evaporate\n3. Reach 100% evaporation";
+        levelObjective = "Waterspout:\n1. Collect heat from red zones (WASD to move)\n2. Rise upward to evaporate\n3. Reach 100% evaporation";
         heatSources = new ArrayList<>(); // Initialize here
         initializeLevel(); // Then populate
     }
@@ -19,6 +19,7 @@ public class WaterspoutLevel extends LevelBase {
         heatSources.add(new Rectangle(400, 200, 60, 60));
         heatSources.add(new Rectangle(600, 300, 60, 60));
         evaporationProgress = 0;
+        player.setEntropy(60);
         startGameLoop(60);
     }
 
@@ -67,17 +68,6 @@ public class WaterspoutLevel extends LevelBase {
     }
 
     @Override
-    protected String getRelevantEquations() {
-        return """
-        Key Equations:
-        - Clausius-Clapeyron: ln(P₂/P₁) = (ΔH_vap/R)(1/T₁ - 1/T₂)
-        - Heat: q = m·ΔH_vap
-        - Entropy: ΔS = ΔH_vap/T_boil
-        - Vapor pressure: P = exp(-ΔH_vap/RT + C)
-        """;
-    }
-
-    @Override
     protected void drawUI(Graphics2D g2d) {
         g2d.setColor(new Color(255, 255, 255, 200));
         g2d.fillRoundRect(getWidth()-250, 20, 230, 100, 20, 20);
@@ -111,22 +101,29 @@ public class WaterspoutLevel extends LevelBase {
     @Override
     protected String getChemistryExplanation() {
         return """
-        WATERSHED CHEMISTRY (Units 3.12, 8.1)
+        IMFS, Heat Transfer, and Entropy (Units 3.01, 6.03, 9.01)
         -------------------------------------
-        Evaporation involves:
-        1. Overcoming hydrogen bonds (IMFs)
-        2. Energy input (ΔH > 0)
-        3. Entropy increase (ΔS > 0)
-        
-        Key Concepts:
-        - Hydrogen bonding: 20 kJ/mol
-        - Vapor pressure equilibrium
-        - Clausius-Clapeyron equation:
-          ln(P) = -ΔH_vap/R(1/T) + C
-        
-        Thermodynamics:
-        ΔG = ΔH - TΔS
-        Spontaneous when ΔG < 0
+        Key Observations:
+        • Red zones = heat sources adding energy
+        • Rising mist = entropy increasing
+
+        AP Chemistry Principles:
+        • Intermolecular Forces (Unit 2.01)
+        • Heat breaks hydrogen bonds between water molecules
+        • Explains waterspout’s upward motion (IMFs → vapor pressure)
+
+        Heat Transfer (Unit 6.03)
+        • Energy flows into the system (endothermic)
+        • Phase change requires specific energy input (ΔH_vap)
+
+        Entropy (Unit 9.01)
+        • Liquid → gas = ΔS > 0 (disorder increases)
+        • Spontaneous because TΔS > ΔH at high temps
+
+        Connection:
+        • Why oceans evaporate under sunlight
+        • How steam engines convert heat → motion
+        • Why sweat cools you (heat absorbed → evaporation)
         """;
     }
 

@@ -26,6 +26,7 @@ public class CloudLevel extends LevelBase {
         
         // Set player position away from cold zones
         player.resetPosition();
+        player.setEntropy(90);
         player.setX(getWidth()/4);  // Spawn at left quarter of screen
         player.setY(getHeight()/2);
         
@@ -48,8 +49,8 @@ public class CloudLevel extends LevelBase {
         
         for (Rectangle coldZone : coldZones) {
             if (player.getBounds().intersects(coldZone)) {
-                player.decreaseEntropy();
-                condensationProgress += 5;
+                player.decreaseEntropy(1);
+                condensationProgress += 1;
                 break;
             }
         }
@@ -70,7 +71,7 @@ public class CloudLevel extends LevelBase {
         g2d.setColor(new Color(255, 255, 255, 200));
         for (int i = 0; i < 5; i++) {
             int x = 100 + i*150;
-            int y = 50 + (int)(Math.random() * 100);
+            int y = 30 + (int)(Math.random() * 2);
             g2d.fillOval(x, y, 120, 80);
             g2d.fillOval(x+30, y+20, 150, 90);
         }
@@ -117,38 +118,24 @@ public class CloudLevel extends LevelBase {
     }
 
     @Override
-    protected String getRelevantEquations() {
-        return """
-        Key Equations:
-        - Raoult's Law: P_solution = X_solvent·P°_solvent
-        - Relative Humidity: RH = (P_water/P_sat) × 100%
-        - Kelvin: ln(P/P°) = 2γV_m/rRT
-        - Gibbs: ΔG = V_mΔP
-        """;
-    }
-
-    @Override
     protected String getChemistryExplanation() {
         return """
-        CLOUD FORMATION (AP Chem Units 8.1, 6.3)
+        IMFS and Exo/Endothermic Reactions (3.01 and 6.01)
         ----------------------------------------
-        Condensation Fundamentals:
-        - Requires temperature below dew point
-        - Nucleation sites (dust, ions) help formation
-        - Exothermic process (ΔH < 0)
+        Observations:
+        • Blue zones are cold air regions
+        • Rain droplets formed happens when entropy is decreasing
+
+        AP Chemistry:
+        • Water molecules reform hydrogen bonds
+        • Nucleation requires dust/ions (like in-game cold zones)
+
+        • Gas → liquid = ΔS < 0 (more ordered)
+        • Exothermic process (releases heat)
         
-        Key AP Chemistry Concepts:
-        - Vapor pressure equilibrium
-        - Relative humidity = (P_water/P_sat) × 100%
-        - Raoult's Law: P_solution = X_solvent × P°_solvent
-        
-        Thermodynamics:
-        ΔG = ΔH - TΔS
-        - Spontaneous when ΔG < 0
-        - For condensation:
-          * ΔH is negative (exothermic)
-          * ΔS is negative (more ordered)
-          * Favored at low temperatures
+        Connection:
+        • How real clouds form at dew point
+        • Why mornings are foggy (Overnight cooling)
         """;
     }
 

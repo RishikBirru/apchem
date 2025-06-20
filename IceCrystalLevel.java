@@ -33,6 +33,7 @@ public class IceCrystalLevel extends LevelBase {
         
         // Spawn player at center
         player.resetPosition();
+        player.setEntropy(50);
         bondsFormed = 0;
         levelComplete = false;
         startGameLoop(60);
@@ -131,42 +132,29 @@ public class IceCrystalLevel extends LevelBase {
     @Override
     protected String getChemistryExplanation() {
         return """
-        ICE CRYSTAL CHEMISTRY (AP Chem Units 3.12, 2.1)
+        IMFS and Entropy (Units 3.01 and 9.01)
         -----------------------------------------------
-        Hydrogen Bonding in Water:
-        - Tetrahedral geometry (109.5° bond angles)
-        - Hexagonal crystal lattice structure
-        - Lower density than liquid water (due to open lattice)
-        
-        Key AP Chemistry Concepts:
-        - Each H₂O molecule forms 4 hydrogen bonds
-        - Hydrogen bond strength: ~20 kJ/mol (vs covalent O-H bond: 463 kJ/mol)
-        - ΔH_fusion = +6.01 kJ/mol (endothermic)
-        - ΔS_fusion = +22.0 J/(mol·K)
-        
-        Phase Diagram Implications:
-        - Negative slope in P-T diagram (unique to water)
-        - Hydrogen bonding explains water's:
-          * High specific heat (4.184 J/g°C)
-          * High heat of vaporization (40.7 kJ/mol)
-          * Surface tension (72.8 mN/m at 20°C)
+        Key Observations:
+        • Blue zones = hydrogen bond sites
+        • Hexagonal shapes = real ice lattice structure
+        • Entropy decreased as crystals formed
+
+        AP Chemistry:
+        • Each H₂O forms 4 bonds (tetrahedral shape)
+        • Stronger than dipole but weaker than covalent bonds
+
+        • Liquid → solid = ΔS < 0 (more ordered)
+        • Still occurs because ΔH is negative (exothermic)
+
+        Connection:
+        • Why ice floats
+        • Snowflake symmetry from H-bond angles
         """;
     }
 
     @Override
     protected String getPhenomenonDescription() {
         return "Forming crystalline structures through hydrogen bonding in water.";
-    }
-
-    @Override
-    protected String getRelevantEquations() {
-        return """
-        Key Equations:
-        - ΔH_fusion = 6.01 kJ/mol
-        - ΔS_fusion = 22.0 J/(mol·K)
-        - Coulomb's Law: F = k(q₁q₂)/r²
-        - Lattice energy calculations
-        """;
     }
 
     @Override

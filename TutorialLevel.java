@@ -24,7 +24,7 @@ public class TutorialLevel extends LevelBase {
         
         energyOrbs.clear();
         energyOrbs.add(new Rectangle(150, 200, 25, 25));
-        energyOrbs.add(new Rectangle(400, 300, 25, 25));
+        energyOrbs.add(new Rectangle(400, 50, 25, 25));
         energyOrbs.add(new Rectangle(600, 150, 25, 25));
         
         orbsCollected = 0;
@@ -61,17 +61,7 @@ public class TutorialLevel extends LevelBase {
 
     @Override
     protected String getPhenomenonDescription() {
-        return "Observing how molecular movement affects entropy changes in different states of matter.";
-    }
-
-    @Override
-    protected String getRelevantEquations() {
-        return """
-        Key Equations:
-        - ΔS = q_rev/T (reversible process)
-        - ΔG = ΔH - TΔS (Gibbs free energy)
-        - ΔS_universe = ΔS_system + ΔS_surroundings
-        """;
+        return "Observing how entropy changes as you gain more energy and are in different states of matter.";
     }
 
     @Override
@@ -138,21 +128,21 @@ public class TutorialLevel extends LevelBase {
     @Override
     protected String getChemistryExplanation() {
         return """
-        ENTROPY AND MOLECULAR MOTION (Unit 9.1)
+        ENTROPY (Unit 9.1)
         ---------------------------------------
-        Entropy (S) measures molecular disorder:
-        - More movement = higher entropy
-        - Phase changes affect entropy dramatically
-        - ΔS > 0 for evaporation (liquid → gas)
-        
-        Key AP Chemistry Concepts:
-        - Spontaneous processes favor increased entropy
-        - Gases > Liquids > Solids for entropy
-        - ΔS° = ΣS°(products) - ΣS°(reactants)
-        
-        Thermodynamics:
-        ΔG = ΔH - TΔS
-        ΔS_universe = ΔS_system + ΔS_surroundings > 0
+        Observations:
+        • Gaining energy increases entropy
+        • Higher entropy/energy leads to phase changes (liquid → gas)
+        • Gas molecules move more freely than liquids
+
+        AP Chemistry:
+        • Entropy measures molecular disorder and adding energy increases entropy 
+        • Spontaneous processes favor increased entropy
+        • Phase changes occur at specific entropy thresholds
+
+        Connections:
+        • Heating ice → water → steam increases entropy
+        • Evaporation occurs spontaneously at room temperature
         """;
     }
 

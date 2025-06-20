@@ -131,7 +131,7 @@ public class Player {
 
     public void setEntropy(int value) {
         this.entropy = Math.max(0, Math.min(100, value));
-        updateState(); // Update molecular state based on new entropy
+        updateState();
     }
 
     // Getters and setters
@@ -143,8 +143,10 @@ public class Player {
     public MolecularState getState() { return state; } // ADDED THIS METHOD
     public void increaseEnergy() { energy = Math.min(100, energy + 10); }
     public void decreaseEnergy() { energy = Math.max(0, energy - 10); }
-    public void increaseEntropy() { entropy = Math.min(100, entropy + 10); }
+    public void increaseEntropy() { entropy = Math.min(100, entropy + 10); updateState();}
     public void decreaseEntropy() { entropy = Math.max(0, entropy - 10); }
+    public void decreaseEntropy(int num) { entropy = Math.max(0, entropy - num); }
+
     public void keyPressed(int keyCode) { pressedKeys.add(keyCode); }
     public void keyReleased(int keyCode) { pressedKeys.remove(keyCode); }
 }

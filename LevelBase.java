@@ -39,11 +39,9 @@ protected void showChemistryExplanation() {
     JTextArea conceptsArea = new JTextArea(getChemistryExplanation());
     styleTextArea(conceptsArea);
     tabbedPane.addTab("Chemistry Concepts", new JScrollPane(conceptsArea));
-    
-    // Equations tab
-    JTextArea equationsArea = new JTextArea(getRelevantEquations());
-    styleTextArea(equationsArea);
-    tabbedPane.addTab("Key Equations", new JScrollPane(equationsArea));
+    tabbedPane.setPreferredSize(new Dimension(500, 300)); // Set reasonable defaults
+
+
     
     // MCQ tab
     JPanel mcqPanel = createMCQPanel();
@@ -185,7 +183,6 @@ private JPanel createMCQPanel() {
     protected abstract String[] getMCQOptions();
     protected abstract String getNextLevel();
     protected abstract String getPhenomenonDescription();
-    protected abstract String getRelevantEquations();
 
 
     @Override
